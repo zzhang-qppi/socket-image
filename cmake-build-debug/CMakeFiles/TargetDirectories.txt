@@ -1,0 +1,3 @@
+D:/clionProjects/socket-image/cmake-build-debug/CMakeFiles/picture_socket.dir
+D:/clionProjects/socket-image/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/clionProjects/socket-image/cmake-build-debug/CMakeFiles/rebuild_cache.dir
