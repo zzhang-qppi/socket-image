@@ -1,7 +1,25 @@
 #include <stdio.h>
 #include <winsock2.h>
+#include <string.h>
 
 #pragma comment(lib,"ws2_32.lib")
+
+int create_ppm_file(char *img){
+    const int dimx = 100, dimy = 100;
+    FILE *fp = fopen("image1.ppm", "wb");
+    fprintf(fp, "P6\n%d %d\n255\n", dimx, dimy);
+    for (int j = 0; j < dimy; ++j){
+        for (int i = 0; i < dimx; ++i){
+            static unsigned char color[3];
+            strncpy((char *)(color), img + j * 900 + i * 9, 3);  /* red */
+            strncpy((char *)(color) + 1, img + j * 900 + i * 9 + 3, 3);;  /* green */
+            strncpy((char *)(color) + 2, img + j * 900 + i * 9 + 6, 3);;  /* blue */
+            fwrite(color, 1, 3, fp);
+        }
+    }
+    fclose(fp);
+    return 0;
+}
 
 int main(int argc, char *argv[]){
     WSADATA wsa;
@@ -19,9 +37,5 @@ int main(int argc, char *argv[]){
     int newsockfd = connect(sockfd, (struct sockaddr *) &cl_addr, sizeof(cl_addr));
     char img[900000000];
     recv(newsockfd, img, 900000000, 0);
-    printf("%s", img);
-}
-
-int rgb_unpack(char *img[]){
-
+    if(create_ppm_file((char *)(img)) == 0){printf("PPM file successfully created.");}
 }
